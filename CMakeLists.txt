@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.18)
+project(TransportProtocolLab)
+add_executable(proto proto.c)
+add_executable(test_state_machine test_state_machine.c)
+find_library(CMOCKA_LIB cmocka REQUIRED)
+target_link_libraries(test_state_machine ${CMOCKA_LIB})
