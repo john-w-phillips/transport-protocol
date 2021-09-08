@@ -33,6 +33,26 @@ isNAK(struct pkt *pkt)
   return (pkt->acknum == NAK);
 }
 
+bool isACK(struct pkt *pkt)
+{
+  return (pkt->acknum == ACK);
+}
+
+int
+compute_checksum(struct pkt *pkt)
+{
+  int checksum = pkt->seqnum + pkt->acknum;
+  for (int i = 0; i < sizeof(pkt->payload) / sizeof(pkt->payload[0]); ++i)
+    checksum += pkt->payload[i];
+  return checksum;
+}
+
+bool
+is_corrupted(struct pkt *pkt)
+{
+  return (compute_checksum(pkt) != pkt->checksum);
+}
+
 struct pkt
 make_send_pkt(struct msg *msg, int checksum)
 {
@@ -42,6 +62,14 @@ make_send_pkt(struct msg *msg, int checksum)
   output.acknum = 0;
   return output;
 }
+
+struct pkt
+make_receive_pkt(enum ack_nack isack)
+{
+  struct pkt output = {.acknum = isack };
+  return output;
+}
+
 enum sender_state
 {
   INVALID = 0,
@@ -49,12 +77,15 @@ enum sender_state
   WAIT_FOR_DATA = 2,
 };
 
+#define QSIZE 256
 struct sender
 {
   enum sender_state state;
+  struct pkt last_packet;
 };
-#define DECLARE_SENDER(name) struct sender name; \
-  init_sender(&name);
+#define DECLARE_SENDER(name) \
+  struct sender name = {.state = WAIT_FOR_DATA}
+
 static void
 init_sender(struct sender *sender)
 {

@@ -16,17 +16,30 @@
 
 #define BIDIRECTIONAL 0    /* change to 1 if you're doing extra credit */
                            /* and write a routine called B_output */
-
+#define   A    0
+#define   B    1
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
 
+DECLARE_SENDER(sender_a);
 
 
 /* called from layer 5, passed the data to be sent to other side */
 A_output(message)
      struct msg message;
 {
+  assert(sender_state(sender_a) == WAIT_FOR_DATA);
+  struct pkt output_pkt = {
+    .acknum = 0,
+    .checksum = 0,
+    .seqnum = 0
+  };
   
+  memcpy(output_pkt.payload, message.data, sizeof(message.data));
+  output_pkt.checksum = compute_checksum(&output_pkt);
+  sender_a.last_packet = output_pkt;
+  tolayer3(A, output_pkt);
+  sender_change_state(&sender_a, WAIT_FOR_ACK_NACK);
 }
 
 B_output(message)  /* need be completed only for extra credit */
@@ -39,28 +52,68 @@ B_output(message)  /* need be completed only for extra credit */
 A_input(packet)
      struct pkt packet;
 {
-
+  assert(sender_state(sender_a) == WAIT_FOR_ACK_NACK);
+  if (is_corrupted(&packet))
+  {
+    abort(); // not handled in rdt2.0.
+  }
+  else if (isNAK(&packet))
+  {
+    tolayer3(A, sender_a.last_packet);
+    return 0;
+  }
+  else if (isACK(&packet))
+  {
+    sender_change_state(&sender_a, WAIT_FOR_DATA);
+    return 0;
+  }
+  else
+  {
+    abort();
+  }
+  return 0;
 }
 
 /* called when A's timer goes off */
 A_timerinterrupt()
 {
 
-}  
+}
+
+
+
 
 /* the following routine will be called once (only) before any other */
 /* entity A routines are called. You can use it to do any initialization */
 A_init()
 {
+  init_sender(&sender_a);
 }
 
 
+DECLARE_SENDER(sender_b);
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
 
 /* called from layer 3, when a packet arrives for layer 4 at B*/
 B_input(packet)
      struct pkt packet;
 {
+
+  if (is_corrupted(&packet))
+  {
+    struct pkt output = make_receive_pkt(NAK);
+    tolayer3(B, output);
+  }
+  else
+  {
+    struct msg layer5_msg;
+
+    memcpy(layer5_msg.data, packet.payload, sizeof(packet.payload));
+    printf("Packet byte 0: %c\n", layer5_msg.data[0]);    
+    struct pkt output = make_receive_pkt(ACK);
+    tolayer3(B, output);
+    tolayer5(B, layer5_msg.data);
+  }
 }
 
 /* called when B's timer goes off */
@@ -72,6 +125,7 @@ B_timerinterrupt()
 /* entity B routines are called. You can use it to do any initialization */
 B_init()
 {
+  init_sender(&sender_b);  
 }
 
 
@@ -108,8 +162,7 @@ struct event *evlist = NULL;   /* the event list */
 
 #define  OFF             0
 #define  ON              1
-#define   A    0
-#define   B    1
+
 
 
 
@@ -266,7 +319,7 @@ generate_next_arrival()
 {
   double x,log(),ceil();
   struct event *evptr;
-  char *malloc();
+  //  // char *malloc();
   float ttime;
   int tempint;
 
@@ -377,7 +430,7 @@ starttimer(AorB,increment)
 
   struct event *q;
   struct event *evptr;
-  char *malloc();
+  // char *malloc();
 
   if (TRACE>2)
     printf("          START TIMER: starting timer at %f\n",time);
@@ -405,7 +458,7 @@ tolayer3(AorB,packet)
 {
   struct pkt *mypktptr;
   struct event *evptr,*q;
-  char *malloc();
+  // char *malloc();
   float lastime, x, jimsrand();
   int i;
 
