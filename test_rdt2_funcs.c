@@ -8,28 +8,29 @@
 void test_is_nack()
 {
   struct pkt my_pkt;
-  my_pkt.acknum = NAK;
-  assert_true(isNAK(&my_pkt));
-  my_pkt.acknum = ACK;
-  assert_false(isNAK(&my_pkt));
-  assert_true(isACK(&my_pkt));
+  my_pkt.acknum = 0;
+  assert_true(isACK(&my_pkt, 0));
 }
 
 void test_make_pkt_sender()
 {
   struct msg my_msg  = {.data = "abcdefghij"};
-  int checksum = 30;
-  struct pkt output_pkt = make_send_pkt(&my_msg, checksum);
-  assert_int_equal(output_pkt.checksum, checksum);
+  struct pkt output_pkt = make_send_pkt(&my_msg, 2);
+  assert_int_equal(output_pkt.checksum, compute_checksum(&output_pkt));
+  assert_int_equal(output_pkt.seqnum, 2);
   assert_string_equal(output_pkt.payload, my_msg.data);
 }
 
 void test_make_pkt_receiver()
 {
-  struct pkt output_pkt = make_receive_pkt(ACK);
-  assert_true(isACK(&output_pkt));
-  output_pkt = make_receive_pkt(NAK);
-  assert_true(isNAK(&output_pkt));
+  struct pkt output_pkt = make_receive_pkt(0);
+  assert_true(isACK(&output_pkt, 0));
+  assert_false(isACK(&output_pkt, 1));
+  assert_int_equal(output_pkt.acknum, 0);
+  output_pkt = make_receive_pkt(1);
+  assert_int_equal(output_pkt.acknum, 1);  
+  assert_true(isACK(&output_pkt, 1));
+
 }
 
 void test_corruption()

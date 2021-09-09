@@ -28,18 +28,24 @@ DECLARE_SENDER(sender_a);
 A_output(message)
      struct msg message;
 {
-  assert(sender_state(sender_a) == WAIT_FOR_DATA);
-  struct pkt output_pkt = {
-    .acknum = 0,
-    .checksum = 0,
-    .seqnum = 0
-  };
-  
-  memcpy(output_pkt.payload, message.data, sizeof(message.data));
-  output_pkt.checksum = compute_checksum(&output_pkt);
+  assert(sender_state(sender_a) == WAIT_FOR_DATA_0 || sender_state(sender_a) == WAIT_FOR_DATA_1);
+  int seq = sender_state(sender_a) == WAIT_FOR_DATA_0 ? 0 : 1;
+  struct pkt output_pkt = make_send_pkt(&message, seq);
   sender_a.last_packet = output_pkt;
+  printf("A: Sending: %s\n", message.data);
   tolayer3(A, output_pkt);
-  sender_change_state(&sender_a, WAIT_FOR_ACK_NACK);
+  switch (sender_state(sender_a))
+  {
+  case WAIT_FOR_DATA_0:
+    sender_change_state(&sender_a, WAIT_FOR_ACK_NACK_0);
+    break;
+  case WAIT_FOR_DATA_1:
+    sender_change_state(&sender_a, WAIT_FOR_ACK_NACK_1);
+    break;
+  default:
+    abort();
+  }
+  return 0;
 }
 
 B_output(message)  /* need be completed only for extra credit */
@@ -52,25 +58,34 @@ B_output(message)  /* need be completed only for extra credit */
 A_input(packet)
      struct pkt packet;
 {
-  assert(sender_state(sender_a) == WAIT_FOR_ACK_NACK);
-  if (is_corrupted(&packet))
+  assert(sender_state(sender_a) == WAIT_FOR_ACK_NACK_0 || sender_state(sender_a) == WAIT_FOR_ACK_NACK_1);
+  bool corrupted = is_corrupted(&packet);
+  bool isack = true;
+  struct msg output_msg;
+  int expected_ack = sender_state(sender_a) == WAIT_FOR_ACK_NACK_0 ? 0 : 1;
+  printf("A got ack/nack, is corrupted: %d, seq: %d, expected: %d\n", corrupted, packet.acknum, expected_ack);
+  switch (sender_state(sender_a))
   {
-    abort(); // not handled in rdt2.0.
+  case WAIT_FOR_ACK_NACK_0:
+  {
+    if (corrupted || isACK(&packet, 1))
+      tolayer3(A, sender_a.last_packet);
+    else
+      sender_change_state(&sender_a, WAIT_FOR_DATA_1);
+    break;
   }
-  else if (isNAK(&packet))
+  case WAIT_FOR_ACK_NACK_1:
   {
-    tolayer3(A, sender_a.last_packet);
-    return 0;
+    if (corrupted || isACK(&packet, 0))
+      tolayer3(A, sender_a.last_packet);
+    else
+      sender_change_state(&sender_a, WAIT_FOR_DATA_0);
+    break;
   }
-  else if (isACK(&packet))
-  {
-    sender_change_state(&sender_a, WAIT_FOR_DATA);
-    return 0;
-  }
-  else
-  {
+  default:
     abort();
   }
+
   return 0;
 }
 
@@ -91,7 +106,7 @@ A_init()
 }
 
 
-DECLARE_SENDER(sender_b);
+DECLARE_RECEIVER(receiver_b);
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
 
 /* called from layer 3, when a packet arrives for layer 4 at B*/
@@ -99,22 +114,45 @@ B_input(packet)
      struct pkt packet;
 {
 
-  if (is_corrupted(&packet))
+  bool corrupted = is_corrupted(&packet);
+  struct pkt output;
+  int expected_seqnum = receiver_state(receiver_b) == WAIT_FOR_DATA_0 ? 0 : 1;
+  int next = (expected_seqnum + 1) % 2;
+  if (corrupted || packet.seqnum != expected_seqnum)
   {
-    struct pkt output = make_receive_pkt(NAK);
+    printf("B: NACK -- retry.\n");
+    output = make_receive_pkt(next);
     tolayer3(B, output);
+    return 0;
+  }
+  else if (!corrupted && packet.seqnum == expected_seqnum)
+  {
+    printf("B: ACK %d!\n", expected_seqnum);
+    output = make_receive_pkt(expected_seqnum);
+    tolayer3(B, output);
+    struct msg layer5_input = extract_msg(&packet);
+    printf("B: GOT: %s\n", layer5_input.data);
+    tolayer5(B, layer5_input.data);
   }
   else
   {
-    struct msg layer5_msg;
-
-    memcpy(layer5_msg.data, packet.payload, sizeof(packet.payload));
-    printf("Packet byte 0: %c\n", layer5_msg.data[0]);    
-    struct pkt output = make_receive_pkt(ACK);
-    tolayer3(B, output);
-    tolayer5(B, layer5_msg.data);
+    abort();
   }
+  switch (receiver_state(receiver_b))
+  {
+  case WAIT_FOR_DATA_0:
+    receiver_change_state(&receiver_b, WAIT_FOR_DATA_1);
+    break;
+  case WAIT_FOR_DATA_1:
+    receiver_change_state(&receiver_b, WAIT_FOR_DATA_0);
+    break;
+  default:
+    abort();
+  }
+  return 0;
 }
+
+
 
 /* called when B's timer goes off */
 B_timerinterrupt()
@@ -125,7 +163,7 @@ B_timerinterrupt()
 /* entity B routines are called. You can use it to do any initialization */
 B_init()
 {
-  init_sender(&sender_b);  
+  init_sender(&receiver_b);  
 }
 
 

@@ -1,6 +1,19 @@
 #ifndef _TRANSPORT_COMMON_H_
 #define _TRANSPORT_COMMON_H_
+
+/*
+  For cmocka asserts.
+ */
+#ifndef TESTING
 #include <assert.h>
+#else
+extern void mock_assert(const int result, const char  *const expression,
+			const char * const file, const int line);
+#undef assert
+#define assert(expr) \
+  mock_assert((int)(expr), #expr, __FILE__, __LINE__)
+#endif
+
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
@@ -33,9 +46,19 @@ isNAK(struct pkt *pkt)
   return (pkt->acknum == NAK);
 }
 
-bool isACK(struct pkt *pkt)
+bool isACK(struct pkt *pkt, int acknum)
 {
-  return (pkt->acknum == ACK);
+  return (pkt->acknum == acknum);
+}
+
+
+
+static inline struct msg
+extract_msg(struct pkt *pkt)
+{
+  struct msg output;
+  memcpy(output.data, pkt->payload, sizeof(pkt->payload));
+  return output;
 }
 
 int
@@ -54,53 +77,117 @@ is_corrupted(struct pkt *pkt)
 }
 
 struct pkt
-make_send_pkt(struct msg *msg, int checksum)
+make_send_pkt(struct msg *msg, int seqnum)
 {
   struct pkt output;
   memcpy(output.payload, msg->data, sizeof(msg->data));
-  output.checksum = checksum;
   output.acknum = 0;
+  output.seqnum = seqnum;
+  output.checksum = compute_checksum(&output);
   return output;
 }
 
-struct pkt
-make_receive_pkt(enum ack_nack isack)
-{
-  struct pkt output = {.acknum = isack };
-  return output;
-}
 
-enum sender_state
+
+enum host_state
 {
   INVALID = 0,
-  WAIT_FOR_ACK_NACK = 1,
-  WAIT_FOR_DATA = 2,
+  WAIT_FOR_ACK_NACK_0 = 1,
+  WAIT_FOR_DATA_0 = 2,
+  WAIT_FOR_ACK_NACK_1 = 3,
+  WAIT_FOR_DATA_1 = 4
 };
 
-#define QSIZE 256
+
+
 struct sender
 {
-  enum sender_state state;
+  enum host_state state;
   struct pkt last_packet;
 };
 #define DECLARE_SENDER(name) \
-  struct sender name = {.state = WAIT_FOR_DATA}
+  struct sender name = {.state = WAIT_FOR_DATA_0}
 
 static void
 init_sender(struct sender *sender)
 {
-  sender->state = WAIT_FOR_DATA;
+  sender->state = WAIT_FOR_DATA_0;
 }
 
 #define sender_state(sender) ((sender).state)
 
 static void
-sender_change_state(struct sender *sender, enum sender_state new_state)
+sender_change_state(struct sender *sender, enum host_state new_state)
 {
-  assert(new_state == WAIT_FOR_DATA || new_state == WAIT_FOR_ACK_NACK);
-  if (new_state == WAIT_FOR_DATA)
-    assert(sender->state != WAIT_FOR_DATA);
-  sender->state = new_state;
+  switch (sender->state)
+  {
+  case INVALID:
+    abort();
+  case WAIT_FOR_DATA_0:
+    assert(new_state == WAIT_FOR_ACK_NACK_0);
+    break;
+  case WAIT_FOR_DATA_1:
+    assert(new_state == WAIT_FOR_ACK_NACK_1);
+    break;
+  case WAIT_FOR_ACK_NACK_0:
+    assert(new_state == WAIT_FOR_DATA_1 || new_state == WAIT_FOR_ACK_NACK_0);
+    break;
+  case WAIT_FOR_ACK_NACK_1:
+    assert(new_state == WAIT_FOR_DATA_0|| new_state == WAIT_FOR_ACK_NACK_1);
+    break;
+  default:
+    abort();
+  }
+  sender->state = new_state;  
 }
+
+struct receiver
+{
+  enum host_state state;
+};
+
+#define DECLARE_RECEIVER(name) \
+  struct receiver name = {.state = WAIT_FOR_DATA_0}
+
+#define receiver_state(receiver) ((receiver).state)
+
+static void
+receiver_change_state(struct receiver *receiver, enum host_state new_state)
+{
+  switch (receiver->state)
+  {
+  case WAIT_FOR_DATA_0:
+  case WAIT_FOR_DATA_1:
+    break;
+  default:
+    assert(0);
+  }
+  switch (new_state)
+  {
+  case WAIT_FOR_ACK_NACK_0:
+  case WAIT_FOR_ACK_NACK_1:
+    assert(0);
+  default:
+    break;
+  }
+  receiver->state = new_state;
+}
+
+
+struct pkt
+make_receive_pkt(int acknum)
+{
+  struct pkt output = {
+    .seqnum = 0,    
+    .acknum = acknum,
+    .checksum = 0,
+    .payload = {0}
+  };
+  output.checksum = compute_checksum(&output);
+  return output;
+  
+}
+
+
 
 #endif
