@@ -29,11 +29,12 @@ A_output(message)
      struct msg message;
 {
   assert(sender_state(sender_a) == WAIT_FOR_DATA_0 || sender_state(sender_a) == WAIT_FOR_DATA_1);
-  int seq = sender_state(sender_a) == WAIT_FOR_DATA_0 ? 0 : 1;
+  int seq = sender_next_seq(sender_a);
   struct pkt output_pkt = make_send_pkt(&message, seq);
   sender_a.last_packet = output_pkt;
   printf("A: Sending: %s\n", message.data);
   tolayer3(A, output_pkt);
+  sender_incr_seq(sender_a);
   switch (sender_state(sender_a))
   {
   case WAIT_FOR_DATA_0:
@@ -62,28 +63,19 @@ A_input(packet)
   bool corrupted = is_corrupted(&packet);
   bool isack = true;
   struct msg output_msg;
-  int expected_ack = sender_state(sender_a) == WAIT_FOR_ACK_NACK_0 ? 0 : 1;
-  printf("A got ack/nack, is corrupted: %d, seq: %d, expected: %d\n", corrupted, packet.acknum, expected_ack);
-  switch (sender_state(sender_a))
+  int expected_ack = sender_expected_ack(sender_a);
+  int wrong_ack = (expected_ack + 1) % 2;
+  enum host_state next_state = (sender_state(sender_a) == WAIT_FOR_ACK_NACK_0)
+    ? WAIT_FOR_DATA_1 : WAIT_FOR_DATA_0;
+  printf("A: got ack/nack, is corrupted: %d, seq: %d, expected: %d\n",
+	 corrupted,
+	 packet.acknum,
+	 expected_ack);
+  if (corrupted || isACK(&packet, wrong_ack))
+    tolayer3(A, sender_a.last_packet);
+  else
   {
-  case WAIT_FOR_ACK_NACK_0:
-  {
-    if (corrupted || isACK(&packet, 1))
-      tolayer3(A, sender_a.last_packet);
-    else
-      sender_change_state(&sender_a, WAIT_FOR_DATA_1);
-    break;
-  }
-  case WAIT_FOR_ACK_NACK_1:
-  {
-    if (corrupted || isACK(&packet, 0))
-      tolayer3(A, sender_a.last_packet);
-    else
-      sender_change_state(&sender_a, WAIT_FOR_DATA_0);
-    break;
-  }
-  default:
-    abort();
+    sender_change_state(&sender_a, next_state);
   }
 
   return 0;
@@ -92,7 +84,7 @@ A_input(packet)
 /* called when A's timer goes off */
 A_timerinterrupt()
 {
-
+  
 }
 
 
@@ -116,12 +108,12 @@ B_input(packet)
 
   bool corrupted = is_corrupted(&packet);
   struct pkt output;
-  int expected_seqnum = receiver_state(receiver_b) == WAIT_FOR_DATA_0 ? 0 : 1;
-  int next = (expected_seqnum + 1) % 2;
+
+  int expected_seqnum = receiver_next_seq(receiver_b);
   if (corrupted || packet.seqnum != expected_seqnum)
   {
     printf("B: NACK -- retry.\n");
-    output = make_receive_pkt(next);
+    output = make_receive_pkt((expected_seqnum +1) %2);
     tolayer3(B, output);
     return 0;
   }
@@ -133,20 +125,10 @@ B_input(packet)
     struct msg layer5_input = extract_msg(&packet);
     printf("B: GOT: %s\n", layer5_input.data);
     tolayer5(B, layer5_input.data);
+    receiver_incr_seq(receiver_b);
   }
   else
   {
-    abort();
-  }
-  switch (receiver_state(receiver_b))
-  {
-  case WAIT_FOR_DATA_0:
-    receiver_change_state(&receiver_b, WAIT_FOR_DATA_1);
-    break;
-  case WAIT_FOR_DATA_1:
-    receiver_change_state(&receiver_b, WAIT_FOR_DATA_0);
-    break;
-  default:
     abort();
   }
   return 0;
@@ -163,7 +145,7 @@ B_timerinterrupt()
 /* entity B routines are called. You can use it to do any initialization */
 B_init()
 {
-  init_sender(&receiver_b);  
+  init_receiver(&receiver_b);  
 }
 
 
@@ -246,6 +228,7 @@ main()
 	printf(", fromlayer3 ");
       printf(" entity: %d\n",eventptr->eventity);
     }
+
     time = eventptr->evtime;        /* update time to next event time */
     if (nsim==nsimmax)
       break;                        /* all done with simulation */
@@ -292,6 +275,7 @@ main()
   }
 
  terminate:
+
   printf(" Simulator terminated at time %f\n after sending %d msgs from layer5\n",time,nsim);
 }
 
@@ -307,6 +291,7 @@ init()                         /* initialize the simulator */
   printf("-----  Stop and Wait Network Simulator Version 1.1 -------- \n\n");
   printf("Enter the number of messages to simulate: ");
   scanf("%d",&nsimmax);
+  printf("%d\n", nsimmax);
   printf("Enter  packet loss probability [enter 0.0 for no loss]:");
   scanf("%f",&lossprob);
   printf("Enter packet corruption probability [0.0 for no corruption]:");
