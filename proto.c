@@ -46,6 +46,7 @@ A_output(message)
   default:
     abort();
   }
+  starttimer(A, sender_timer(sender_a));
   return 0;
 }
 
@@ -71,8 +72,12 @@ A_input(packet)
 	 corrupted,
 	 packet.acknum,
 	 expected_ack);
+  stoptimer(A);  
   if (corrupted || isACK(&packet, wrong_ack))
+  {
     tolayer3(A, sender_a.last_packet);
+    starttimer(A, sender_timer(sender_a));
+  }
   else
   {
     sender_change_state(&sender_a, next_state);
@@ -84,7 +89,8 @@ A_input(packet)
 /* called when A's timer goes off */
 A_timerinterrupt()
 {
-  
+  tolayer3(A, sender_a.last_packet);
+  starttimer(A, sender_timer(sender_a));
 }
 
 
@@ -94,7 +100,7 @@ A_timerinterrupt()
 /* entity A routines are called. You can use it to do any initialization */
 A_init()
 {
-  init_sender(&sender_a);
+  init_sender(&sender_a, 500.0);
 }
 
 
@@ -123,7 +129,8 @@ B_input(packet)
     output = make_receive_pkt(expected_seqnum);
     tolayer3(B, output);
     struct msg layer5_input = extract_msg(&packet);
-    printf("B: GOT: %s\n", layer5_input.data);
+    printf("B: GOT:\n", layer5_input.data);
+    fflush(stdout);
     tolayer5(B, layer5_input.data);
     receiver_incr_seq(receiver_b);
   }
@@ -145,7 +152,7 @@ B_timerinterrupt()
 /* entity B routines are called. You can use it to do any initialization */
 B_init()
 {
-  init_receiver(&receiver_b);  
+  init_receiver(&receiver_b, 500.0);  
 }
 
 

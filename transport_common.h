@@ -105,21 +105,25 @@ struct sender
   enum host_state state;
   struct pkt last_packet;
   int next_seq;
+  double timer;
 };
 #define DECLARE_SENDER(name) \
   struct sender name = {			\
     .state = WAIT_FOR_DATA_0,			\
     .next_seq = 0,				\
+    .timer = 0,					\
   }
 
 #define sender_next_seq(sender) ((sender).next_seq)
 #define sender_incr_seq(sender) ((sender).next_seq = ((sender).next_seq + 1) % 2)
 #define sender_expected_ack(sender) (((sender).next_seq + 1)%2)
+#define sender_timer(sender) ((sender).timer)
 static void
-init_sender(struct sender *sender)
+init_sender(struct sender *sender, double timer)
 {
   sender->state = WAIT_FOR_DATA_0;
   sender->next_seq = 0;
+  sender->timer = timer;
   return;
 }
 
@@ -154,24 +158,28 @@ struct receiver
 {
   enum host_state state;
   int next_seq;
+  double timer;
 };
 
 static void
-init_receiver(struct receiver *receiver)
+init_receiver(struct receiver *receiver, double timer)
 {
   receiver->state = WAIT_FOR_DATA_0;
   receiver->next_seq = 0;
+  receiver->timer = timer;
   return;
 }
 #define DECLARE_RECEIVER(name)			\
   struct receiver name = {			\
     .state = WAIT_FOR_DATA_0,			\
-    .next_seq = 0}				
+    .next_seq = 0,				\
+    .timer = 0,					\
+}				
 
 #define receiver_state(receiver) ((receiver).state)
 #define receiver_next_seq(receiver) ((receiver).next_seq)
 #define receiver_incr_seq(receiver) ((receiver).next_seq = ((receiver).next_seq + 1) % 2)
-
+#define receiver_timeout(receiver) ((receiver).timer);
 static void
 receiver_change_state(struct receiver *receiver, enum host_state new_state)
 {
