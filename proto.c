@@ -35,17 +35,7 @@ A_output(message)
   printf("A: Sending: %s\n", message.data);
   tolayer3(A, output_pkt);
   sender_incr_seq(sender_a);
-  switch (sender_state(sender_a))
-  {
-  case WAIT_FOR_DATA_0:
-    sender_change_state(&sender_a, WAIT_FOR_ACK_NACK_0);
-    break;
-  case WAIT_FOR_DATA_1:
-    sender_change_state(&sender_a, WAIT_FOR_ACK_NACK_1);
-    break;
-  default:
-    abort();
-  }
+  update_sender_state(&sender_a);
   starttimer(A, sender_timer(sender_a));
   return 0;
 }
@@ -129,8 +119,7 @@ B_input(packet)
     output = make_receive_pkt(expected_seqnum);
     tolayer3(B, output);
     struct msg layer5_input = extract_msg(&packet);
-    printf("B: GOT:\n", layer5_input.data);
-    fflush(stdout);
+    printf("B: GOT: %s\n", msg_data_string(&layer5_input));
     tolayer5(B, layer5_input.data);
     receiver_incr_seq(receiver_b);
   }

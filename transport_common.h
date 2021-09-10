@@ -118,6 +118,7 @@ struct sender
 #define sender_incr_seq(sender) ((sender).next_seq = ((sender).next_seq + 1) % 2)
 #define sender_expected_ack(sender) (((sender).next_seq + 1)%2)
 #define sender_timer(sender) ((sender).timer)
+
 static void
 init_sender(struct sender *sender, double timer)
 {
@@ -152,6 +153,31 @@ sender_change_state(struct sender *sender, enum host_state new_state)
     abort();
   }
   sender->state = new_state;  
+}
+static void
+update_sender_state(struct sender *the_sender)
+{
+  switch (sender_state(*the_sender))
+  {
+  case WAIT_FOR_DATA_0:
+    sender_change_state(the_sender, WAIT_FOR_ACK_NACK_0);
+    break;
+  case WAIT_FOR_DATA_1:
+    sender_change_state(the_sender, WAIT_FOR_ACK_NACK_1);
+    break;
+  default:
+    abort();
+  }  
+}
+
+
+char *
+msg_data_string(struct msg *data)
+{
+  static char string[sizeof(struct msg)+1];
+  memset(string, 0, sizeof(string));
+  memcpy(string, data->data, sizeof(data->data));
+  return string;
 }
 
 struct receiver
