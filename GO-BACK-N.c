@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> /* for malloc, free, srand, rand */
 #include <string.h>
+#include "debugging_gbn.h"
 
 /*******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
@@ -48,12 +49,15 @@ int base;
 int nextseqnum;
 int expectedseqnum;
 
-float estimatedRTT = 100;
+float estimatedRTT = 10;
 float initialTime;
 
-const int windowSize = 8;
+// const int windowSize = 8;
+#define windowSize 8
 struct pkt packets[windowSize];
 struct pkt sndpkt;
+struct sender_debug sender_debug;
+struct receiver_debug receiver_debug;
 
 /*****************************************************************
 ***************** NETWORK EMULATION CODE STARTS BELOW ***********
@@ -103,6 +107,8 @@ float lambda;              /* arrival rate of messages from layer 5 */
 int   ntolayer3;           /* number sent into layer 3 */
 int   nlost;               /* number lost in media */
 int ncorrupt;              /* number corrupted by media*/
+
+
 
 void init()                         /* initialize the simulator */
 {
@@ -384,24 +390,44 @@ int checksum(struct pkt packet){
 	return checkSumValue;
 }
 
+void A_send_packet(struct pkt packet)
+{
+  fprintf(sender_debug.sent_seqnums, "%d\n", packet.seqnum);
+  tolayer3(0,packet);
+}
+
+void dump_packet_payload(struct pkt packet, FILE *fp)
+{
+  static char message_string[sizeof(packet.payload)+1];
+
+  memset(message_string, 0, sizeof(message_string));
+  memcpy(message_string, packet.payload, sizeof(packet.payload));
+  fprintf(fp, "%s\n", message_string);
+  fflush(fp);  
+}
+
 /* called from layer 5, passed the data to be sent to other side */
 int A_output(struct msg message) {
-   //checks to make sure that server is only wainting on at most 10 unacknowledged packets
-    if(nextseqnum < base + windowSize) {
+  //checks to make sure that server is only wainting on at most 10 unacknowledged packets
+  struct pkt packet;
+
+  for (int i = 0; i < 20; i++)
+    packet.payload[i] = message.data[i];
+
+  if(nextseqnum < base + windowSize) {
         //make a packet that will be sent to B
-        struct pkt packet;
+
         packet.seqnum = nextseqnum;
         packet.acknum = 0;
 
-        for (int i = 0; i < 20; i++)
-            packet.payload[i] = message.data[i];
         
         packet.checksum = checksum(packet);
 
         packets[nextseqnum % windowSize] = packet;
 
         //Sends the packet to layer 3 of B
-        tolayer3(0,packet);
+	A_send_packet(packet);
+        /* tolayer3(0,packet); */
 
         if(base == nextseqnum) {
             initialTime = time;
@@ -413,8 +439,17 @@ int A_output(struct msg message) {
         return (1); /* Return a 0 to refuse the message */
     }
     else {
-        return (0);
+      dump_packet_payload(packet, sender_debug.dropped);
+      return (0);
     }
+}
+
+void A_debug_input(struct pkt packet)
+{
+  fprintf(sender_debug.received_acks, "%d\n", packet.acknum);
+  fprintf(sender_debug.checksum_valid, "%d %d\n",
+	  packet.checksum,
+	  checksum(packet));
 }
 
 /* called from layer 3, when a packet arrives for layer 4 */
@@ -424,7 +459,8 @@ void A_input(struct pkt packet) {
    printf("Side A has recieved a packet sent over the network from side B\n");
 
     //check if packet is corrupted
-    printf("%d, %d\n", packet.checksum, checksum(packet));
+    //printf("%d, %d\n", packet.checksum, checksum(packet));
+   A_debug_input(packet);
     if(packet.checksum == checksum(packet)) {
        printf("Checksum worked and acknowledgement number = %d\n", packet.acknum);
         base = packet.acknum + 1;
@@ -450,23 +486,36 @@ void A_timerinterrupt() {
     //restart our time so estimatedRTT is calculated correctly later
    initialTime = time;
    starttimer(0,estimatedRTT);
-
+   printf("A: TIMERINTERRUPT!\n");
     //Loop through packets that need to be resent based on most recent packet acknowledged (base)
    for(int t = base; t <= nextseqnum - 1; t++){
         //Uses saved packets in array to resend
 		struct pkt startPacket = packets[t % windowSize]; 
         //Sends packet back to B
-		tolayer3(0,startPacket);
+		//tolayer3(0,startPacket);
+		A_send_packet(startPacket);
 	}
 }
+
 
 /* the following routine will be called once (only) before any other */
 /* entity A routines are called. You can use it to do any initialization */
 void A_init() {
    base = 1;
    nextseqnum = 1;
+   init_sender_debug(&sender_debug);
 }
 
+
+void B_debug_packet(struct pkt packet)
+{
+  static char expected = 0;  
+  dump_packet_payload(packet, receiver_debug.received_packets);
+  if (packet.payload[0] != (expected + 'a'))
+    abort();
+  else
+    expected = (expected + 1) % 26;
+}
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
 
@@ -475,6 +524,7 @@ void B_input(struct pkt packet) {
    //std::cout << "Layer 4 on side B has recieved a packet from layer 3 sent over the network from side A:" << packet << std::endl;
 
     //if packet is the correct seqnum and not corrupted
+  printf("B: got: %s, seqnum: %d expected: %d\n", packet.payload, packet.seqnum, expectedseqnum);
     if(packet.checksum == checksum(packet) && packet.seqnum == expectedseqnum){
         //std::cout << "Packet is good, sending ack for packet " << packet.seqnum << std::endl;
         //extract the message
@@ -483,7 +533,9 @@ void B_input(struct pkt packet) {
             message.data[i] = packet.payload[i];
 
         //delivers the message
+	B_debug_packet(packet);
         tolayer5(1,message.data);
+
 
         //set the most recent correct packet
         sndpkt.seqnum = expectedseqnum;
@@ -517,6 +569,7 @@ int B_output(struct msg message)  /* need be completed only for extra credit */ 
 
 /* called when B's timer goes off */
 void B_timerinterrupt() {
+  printf("**BINT!\n");
    //std::cout << "Side B's timer has gone off." << std::endl;
 }
    
@@ -525,9 +578,10 @@ void B_timerinterrupt() {
 /* entity B routines are called. You can use it to do any initialization */
 void B_init() {
    expectedseqnum = 1;
-	sndpkt.seqnum = 0;
-	sndpkt.acknum = 0;	
-	sndpkt.checksum = 0;
+   sndpkt.seqnum = 0;
+   sndpkt.acknum = 0;	
+   sndpkt.checksum = 0;
+   init_receiver_debug(&receiver_debug);
 }
 
 int main() {

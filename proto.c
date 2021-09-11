@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "transport_common.h"
+#include "abp.h"
 /* ******************************************************************
    ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
 
@@ -28,7 +28,8 @@ DECLARE_SENDER(sender_a);
 A_output(message)
      struct msg message;
 {
-  assert(sender_state(sender_a) == WAIT_FOR_DATA_0 || sender_state(sender_a) == WAIT_FOR_DATA_1);
+  assert(sender_state(sender_a) == WAIT_FOR_DATA_0
+	 || sender_state(sender_a) == WAIT_FOR_DATA_1);
   int seq = sender_next_seq(sender_a);
   struct pkt output_pkt = make_send_pkt(&message, seq);
   sender_a.last_packet = output_pkt;
@@ -50,7 +51,8 @@ B_output(message)  /* need be completed only for extra credit */
 A_input(packet)
      struct pkt packet;
 {
-  assert(sender_state(sender_a) == WAIT_FOR_ACK_NACK_0 || sender_state(sender_a) == WAIT_FOR_ACK_NACK_1);
+  assert(sender_state(sender_a) == WAIT_FOR_ACK_NACK_0
+	 || sender_state(sender_a) == WAIT_FOR_ACK_NACK_1);
   bool corrupted = is_corrupted(&packet);
   bool isack = true;
   struct msg output_msg;

@@ -4,7 +4,7 @@
 #include <setjmp.h>
 #include <stdint.h>
 #include <cmocka.h>
-#include "transport_common.h"
+#include "abp.h"
 
 void test_send_states()
 {
