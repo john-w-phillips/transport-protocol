@@ -40,8 +40,8 @@ A_output(message)
     fprintf(
       stderr,
       "Application layer attempted to send data when we haven't gotten ack "
-      "for last packet, exiting\n");
-    exit(0);
+      "for last packet, dropping it!\n");
+    return 0;
   }
   int seq = sender_next_seq(sender_a);
   struct pkt output_pkt = make_send_pkt(&message, seq);
