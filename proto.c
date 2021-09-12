@@ -48,7 +48,6 @@ A_output(message)
   sender_a.last_packet = output_pkt;
   printf("A: Sending: %s\n", message.data);
   A_send_packet(output_pkt, &sender_dbg);
-  //tolayer3(A, output_pkt);
   sender_incr_seq(sender_a);
   update_sender_state(&sender_a);
   starttimer(A, sender_timer(sender_a));
