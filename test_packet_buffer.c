@@ -151,7 +151,8 @@ void test_resend_iteration()
   char expected[] = {'g', 'h', 'i', 'Z', 'Z'};
   counter = 0;
   for (iterator = packet_buffer_unacked_begin(&buffer);
-       iterator != packet_buffer_unacked_end(&buffer);
+       !packet_buffer_iter_is_past_window(&buffer,
+					  iterator);
        iterator = packet_buffer_next(&buffer, iterator))
   {
     printf("begin: %p\n", packet_buffer_unacked_begin(&buffer));    

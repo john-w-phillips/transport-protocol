@@ -107,6 +107,25 @@ packet_buffer_unacked_end(struct packet_buffer *pb)
   return &pb->packets[(pb->base_ptr + pb->next_seq_ptr) % pb->qsize];
 }
 
+static bool
+packet_buffer_iter_is_past_window(struct packet_buffer *pb,
+				  struct pkt *iter)
+{
+  /*
+    If the iterator is equal to one-past the end (normal)
+    or (edge case) we have no outstanding packets,
+    and next_seq_ptr == 0.
+
+    We could also write 
+    'true if next_seq_ptr == 0 or the iterator is equal
+    to base_ptr + next_seq_ptr'.
+   */
+  return (pb->next_seq_ptr == 0
+	  || iter == &pb->packets[
+	    (pb->base_ptr
+	     + pb->next_seq_ptr) % pb->qsize]);
+}
+
 static struct pkt*
 packet_buffer_next(struct packet_buffer *pb, struct pkt *iter)
 {
