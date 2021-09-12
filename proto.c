@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "abp.h"
+int tolayer3(int,struct pkt);
+#include "debugging_gbn.h"
+
 /* ******************************************************************
    ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
 
@@ -20,7 +23,8 @@
 #define   B    1
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
-
+struct sender_debug sender_dbg;
+struct receiver_debug receiver_dbg;
 DECLARE_SENDER(sender_a);
 
 
@@ -28,13 +32,23 @@ DECLARE_SENDER(sender_a);
 A_output(message)
      struct msg message;
 {
-  assert(sender_state(sender_a) == WAIT_FOR_DATA_0
-	 || sender_state(sender_a) == WAIT_FOR_DATA_1);
+  if (!(sender_state(sender_a) == WAIT_FOR_DATA_0
+	|| sender_state(sender_a) == WAIT_FOR_DATA_1))
+  {
+    fflush(stdout);
+    fflush(stderr);
+    fprintf(
+      stderr,
+      "Application layer attempted to send data when we haven't gotten ack "
+      "for last packet, exiting\n");
+    exit(0);
+  }
   int seq = sender_next_seq(sender_a);
   struct pkt output_pkt = make_send_pkt(&message, seq);
   sender_a.last_packet = output_pkt;
   printf("A: Sending: %s\n", message.data);
-  tolayer3(A, output_pkt);
+  A_send_packet(output_pkt, &sender_dbg);
+  //tolayer3(A, output_pkt);
   sender_incr_seq(sender_a);
   update_sender_state(&sender_a);
   starttimer(A, sender_timer(sender_a));
@@ -81,7 +95,7 @@ A_input(packet)
 /* called when A's timer goes off */
 A_timerinterrupt()
 {
-  tolayer3(A, sender_a.last_packet);
+  A_send_packet(sender_a.last_packet, &sender_dbg);
   starttimer(A, sender_timer(sender_a));
 }
 
@@ -92,7 +106,9 @@ A_timerinterrupt()
 /* entity A routines are called. You can use it to do any initialization */
 A_init()
 {
+  double timeout_value = 500.0;
   init_sender(&sender_a, 500.0);
+  init_sender_debug(&sender_dbg);
 }
 
 
@@ -122,6 +138,7 @@ B_input(packet)
     tolayer3(B, output);
     struct msg layer5_input = extract_msg(&packet);
     printf("B: GOT: %s\n", msg_data_string(&layer5_input));
+    B_debug_packet(packet, &receiver_dbg);
     tolayer5(B, layer5_input.data);
     receiver_incr_seq(receiver_b);
   }
@@ -143,7 +160,8 @@ B_timerinterrupt()
 /* entity B routines are called. You can use it to do any initialization */
 B_init()
 {
-  init_receiver(&receiver_b, 500.0);  
+  init_receiver(&receiver_b, 500.0);
+  init_receiver_debug(&receiver_dbg);
 }
 
 
@@ -473,6 +491,7 @@ starttimer(AorB,increment)
 
 
 /************************** TOLAYER3 ***************/
+
 tolayer3(AorB,packet)
      int AorB;  /* A or B is trying to stop timer */
      struct pkt packet;

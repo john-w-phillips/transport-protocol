@@ -34,7 +34,7 @@ int base;
 int nextseqnum;
 int expectedseqnum;
 
-float estimatedRTT = 500;
+float estimatedRTT = 15;
 float initialTime;
 
 // const int windowSize = 8;
@@ -377,21 +377,7 @@ int checksum(struct pkt packet){
 	return checkSumValue;
 }
 
-void A_send_packet(struct pkt packet)
-{
-  fprintf(sender_debug.sent_seqnums, "%d\n", packet.seqnum);
-  tolayer3(0,packet);
-}
 
-void dump_packet_payload(struct pkt packet, FILE *fp)
-{
-  static char message_string[sizeof(packet.payload)+1];
-
-  memset(message_string, 0, sizeof(message_string));
-  memcpy(message_string, packet.payload, sizeof(packet.payload));
-  fprintf(fp, "%s\n", message_string);
-  fflush(fp);  
-}
 
 /* called from layer 5, passed the data to be sent to other side */
 int A_output(struct msg message) {
@@ -401,16 +387,18 @@ int A_output(struct msg message) {
   for (int i = 0; i < 20; i++)
     packet.payload[i] = message.data[i];
 
-  /* packet.seqnum = nextseqnum; */
-  /* packet.acknum = 0; */
-  /* packet.checksum = checksum(packet); */
   if (!packet_buffer_push(&sender_buffer, message))
-    return 0;
+  {
+    fflush(stdout);
+    fflush(stderr);
+    fprintf(stderr, "Exiting with buffer overflow (try a larger initial RTT).\n");
+    exit(1);
+  }
   struct pkt *next;
   if ((next = packet_buffer_get_next_for_window(&sender_buffer)) != NULL)
   {
     next->checksum = checksum(*next);
-    A_send_packet(*next);
+    A_send_packet(*next, &sender_debug);
     
     /* tolayer3(0,packet); */
     if(sender_buffer.base_seq == sender_buffer.next_seq-1) {
@@ -482,31 +470,21 @@ void A_input(struct pkt packet) {
 
 /* called when A's timer goes off */
 void A_timerinterrupt() {
-   //std::cout << "Side A's timer has gone off." << std::endl;
-    
     //restart our time so estimatedRTT is calculated correctly later
    initialTime = time;
    starttimer(0,estimatedRTT);
    printf("A: TIMERINTERRUPT!\n");
     //Loop through packets that need to be resent based on most recent packet acknowledged (base)
-   /* for(int t = base; t <= nextseqnum - 1; t++){ */
-   /*      //Uses saved packets in array to resend */
-   /* 		struct pkt startPacket = packets[t % windowSize];  */
-   /*      //Sends packet back to B */
-   /* 		//tolayer3(0,startPacket); */
-   /* 		A_send_packet(startPacket); */
-   /* 	} */
    for (struct pkt *p_i = packet_buffer_unacked_begin(&sender_buffer);
-	//p_i != packet_buffer_unacked_end(&sender_buffer);
 	!packet_buffer_iter_is_past_window(&sender_buffer, p_i);
 	p_i = packet_buffer_next(&sender_buffer, p_i))
    {
-     A_send_packet(*p_i);
+     A_send_packet(*p_i, &sender_debug);
    }
    
 }
 
-#define QSIZE 50 // from lab.
+#define QSIZE 60 // from lab.
 
 /* the following routine will be called once (only) before any other */
 /* entity A routines are called. You can use it to do any initialization */
@@ -527,15 +505,7 @@ void A_init() {
 }
 
 
-void B_debug_packet(struct pkt packet)
-{
-  static char expected = 0;  
-  dump_packet_payload(packet, receiver_debug.received_packets);
-  if (packet.payload[0] != (expected + 'a'))
-    abort();
-  else
-    expected = (expected + 1) % 26;
-}
+
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
 
@@ -553,7 +523,7 @@ void B_input(struct pkt packet) {
             message.data[i] = packet.payload[i];
 
         //delivers the message
-	B_debug_packet(packet);
+	B_debug_packet(packet, &receiver_debug);
         tolayer5(1,message.data);
 
 
