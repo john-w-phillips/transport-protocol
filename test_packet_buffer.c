@@ -100,8 +100,8 @@ void test_packet_buffer()
   }
   struct msg message;
   message.data[0] = 'Z';
-  expect_assert_failure(packet_buffer_push(&buffer, message));
-
+  //expect_assert_failure(packet_buffer_push(&buffer, message));
+  assert_false(packet_buffer_push(&buffer, message));
 }
 
 void test_resend_iteration()
@@ -128,13 +128,38 @@ void test_resend_iteration()
   char start = 'd';
   char end = 'e';
   struct pkt *iterator;
+  int counter = 0;
   for (iterator = packet_buffer_unacked_begin(&buffer);
        iterator != packet_buffer_unacked_end(&buffer);
-       ++iterator)
+       iterator = packet_buffer_next(&buffer, iterator))
   {
     assert_int_equal(iterator->payload[0], start++);
+    ++counter;
   }
   assert_int_equal((iterator-1)->payload[0], end);
+  assert_int_equal(counter, window_size - 3);
+  // ack 6, or 'f'. That's the whole window.
+  packet_buffer_recv_ack(&buffer, 6);
+
+  struct msg new_msg;
+  new_msg.data[0] = 'Z';
+  assert_true(packet_buffer_push(&buffer, new_msg));
+  assert_true(packet_buffer_push(&buffer, new_msg));
+  // qsize is 10. We don't use one item, so there are nine items in the queue.
+  // We acked up to 6 which is a-f. So the next items avaialbe should be
+  // in the window g, h, i, and the just-pushed Z.
+  char expected[] = {'g', 'h', 'i', 'Z', 'Z'};
+  counter = 0;
+  for (iterator = packet_buffer_unacked_begin(&buffer);
+       iterator != packet_buffer_unacked_end(&buffer);
+       iterator = packet_buffer_next(&buffer, iterator))
+  {
+    printf("begin: %p\n", packet_buffer_unacked_begin(&buffer));    
+    printf("end: %p\n", packet_buffer_unacked_end(&buffer));
+    printf("it: %p\n", iterator);    
+    printf("Data: %c\n", iterator->payload[0]);
+    assert_int_equal(iterator->payload[0], expected[counter++]);
+  }
 }
 
 int main()

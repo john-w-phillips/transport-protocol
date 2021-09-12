@@ -95,13 +95,28 @@ packet_buffer_get_next_seqnum(struct packet_buffer *pb)
 static struct pkt *
 packet_buffer_unacked_begin(struct packet_buffer *pb)
 {
-  return &pb->packets[pb->base_ptr + 1];
+  return &pb->packets[(pb->base_ptr + 1) % pb->qsize];
 }
 
 static struct pkt *
 packet_buffer_unacked_end(struct packet_buffer *pb)
 {
-  return &pb->packets[pb->base_ptr + pb->next_seq_ptr];
+  printf("END: %d\n", (pb->base_ptr + pb->next_seq_ptr) % pb->qsize);
+  printf("next: %d\n", (pb->base_ptr + pb->next_seq_ptr));
+  printf("next raw: %d\n", (pb->next_seq_ptr));  
+  return &pb->packets[(pb->base_ptr + pb->next_seq_ptr) % pb->qsize];
 }
+
+static struct pkt*
+packet_buffer_next(struct packet_buffer *pb, struct pkt *iter)
+{
+  ++iter;
+  if (iter > &pb->packets[pb->qsize-1])
+  {
+    iter = pb->packets;
+  }
+  return iter;
+}
+
 #define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x[0])))
 #endif

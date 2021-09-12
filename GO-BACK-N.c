@@ -498,7 +498,7 @@ void A_timerinterrupt() {
    /* 	} */
    for (struct pkt *p_i = packet_buffer_unacked_begin(&sender_buffer);
 	p_i != packet_buffer_unacked_end(&sender_buffer);
-	++p_i)
+	p_i = packet_buffer_next(&sender_buffer, p_i))
    {
      A_send_packet(*p_i);
    }
