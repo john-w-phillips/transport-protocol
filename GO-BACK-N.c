@@ -2,6 +2,7 @@
 #include <stdlib.h> /* for malloc, free, srand, rand */
 #include <string.h>
 #include "debugging_gbn.h"
+#include "packet_buffer.h"
 
 /*******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
@@ -20,22 +21,6 @@
 #define BIDIRECTIONAL 0    /* change to 1 if you're doing extra credit */
                            /* and write a routine called B_output */
 
-/* a "msg" is the data unit passed from layer 5 (teachers code) to layer  */
-/* 4 (students' code).  It contains the data (characters) to be delivered */
-/* to layer 5 via the students transport level protocol entities.         */
-struct msg {
-  char data[20];
-  };
-
-/* a packet is the data unit passed from layer 4 (students code) to layer */
-/* 3 (teachers code).  Note the pre-defined packet structure, which all   */
-/* students must follow. */
-struct pkt {
-   int seqnum;
-   int acknum;
-   int checksum;
-   char payload[20];
-    };
 
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
@@ -54,10 +39,12 @@ float initialTime;
 
 // const int windowSize = 8;
 #define windowSize 8
-struct pkt packets[windowSize];
+//struct pkt packets[windowSize];
+
 struct pkt sndpkt;
 struct sender_debug sender_debug;
 struct receiver_debug receiver_debug;
+struct packet_buffer sender_buffer;
 
 /*****************************************************************
 ***************** NETWORK EMULATION CODE STARTS BELOW ***********
@@ -414,34 +401,48 @@ int A_output(struct msg message) {
   for (int i = 0; i < 20; i++)
     packet.payload[i] = message.data[i];
 
-  if(nextseqnum < base + windowSize) {
-        //make a packet that will be sent to B
-
-        packet.seqnum = nextseqnum;
-        packet.acknum = 0;
-
-        
-        packet.checksum = checksum(packet);
-
-        packets[nextseqnum % windowSize] = packet;
-
-        //Sends the packet to layer 3 of B
-	A_send_packet(packet);
-        /* tolayer3(0,packet); */
-
-        if(base == nextseqnum) {
-            initialTime = time;
-            starttimer(0,estimatedRTT);
-        }
-
-        nextseqnum++;
-
-        return (1); /* Return a 0 to refuse the message */
+  /* packet.seqnum = nextseqnum; */
+  /* packet.acknum = 0; */
+  /* packet.checksum = checksum(packet); */
+  if (!packet_buffer_push(&sender_buffer, message))
+    return 0;
+  struct pkt *next;
+  if ((next = packet_buffer_get_next_for_window(&sender_buffer)) != NULL)
+  {
+    next->checksum = checksum(*next);
+    A_send_packet(*next);
+    
+    /* tolayer3(0,packet); */
+    if(sender_buffer.base_seq == sender_buffer.next_seq-1) {
+      initialTime = time;
+      starttimer(0,estimatedRTT);
     }
-    else {
-      dump_packet_payload(packet, sender_debug.dropped);
-      return (0);
-    }
+    return 1;
+  }
+  else
+    return 0;
+/* if(nextseqnum < base + windowSize) { */
+/*         //make a packet that will be sent to B */
+
+/*         packets[nextseqnum % windowSize] = packet; */
+
+/*         //Sends the packet to layer 3 of B */
+/* 	A_send_packet(packet); */
+/*         /\* tolayer3(0,packet); *\/ */
+
+/*         if(base == nextseqnum) { */
+/*             initialTime = time; */
+/*             starttimer(0,estimatedRTT); */
+/*         } */
+
+/*         nextseqnum++; */
+
+/*         return (1); /\* Return a 0 to refuse the message *\/ */
+/*     } */
+/*     else { */
+/*       dump_packet_payload(packet, sender_debug.dropped); */
+/*       return (0); */
+/*     } */
 }
 
 void A_debug_input(struct pkt packet)
@@ -463,8 +464,8 @@ void A_input(struct pkt packet) {
    A_debug_input(packet);
     if(packet.checksum == checksum(packet)) {
        printf("Checksum worked and acknowledgement number = %d\n", packet.acknum);
-        base = packet.acknum + 1;
-
+       // base = packet.acknum + 1;
+       packet_buffer_recv_ack(&sender_buffer, packet.acknum);
         //RTT is complete for this packet, so we can use it in estimatedRTT calculation
         if(base == nextseqnum) {
             stoptimer(0);
@@ -473,7 +474,7 @@ void A_input(struct pkt packet) {
         }
         else {
             //restarts the timer
-            initialTime = time; 
+            initialTime = time;
             starttimer(0, estimatedRTT);
         }
     }
@@ -488,22 +489,40 @@ void A_timerinterrupt() {
    starttimer(0,estimatedRTT);
    printf("A: TIMERINTERRUPT!\n");
     //Loop through packets that need to be resent based on most recent packet acknowledged (base)
-   for(int t = base; t <= nextseqnum - 1; t++){
-        //Uses saved packets in array to resend
-		struct pkt startPacket = packets[t % windowSize]; 
-        //Sends packet back to B
-		//tolayer3(0,startPacket);
-		A_send_packet(startPacket);
-	}
+   /* for(int t = base; t <= nextseqnum - 1; t++){ */
+   /*      //Uses saved packets in array to resend */
+   /* 		struct pkt startPacket = packets[t % windowSize];  */
+   /*      //Sends packet back to B */
+   /* 		//tolayer3(0,startPacket); */
+   /* 		A_send_packet(startPacket); */
+   /* 	} */
+   for (struct pkt *p_i = packet_buffer_unacked_begin(&sender_buffer);
+	p_i != packet_buffer_unacked_end(&sender_buffer);
+	++p_i)
+   {
+     A_send_packet(*p_i);
+   }
+   
 }
 
+#define QSIZE 50 // from lab.
 
 /* the following routine will be called once (only) before any other */
 /* entity A routines are called. You can use it to do any initialization */
 void A_init() {
-   base = 1;
-   nextseqnum = 1;
+   /* base = 1; */
+   /* nextseqnum = 1; */
    init_sender_debug(&sender_debug);
+   sender_buffer.base_seq = 1;   
+   sender_buffer.base_ptr = 0;
+
+   sender_buffer.next_seq = 1;
+   sender_buffer.next_seq_ptr = 1;
+
+   sender_buffer.qsize = QSIZE;
+   sender_buffer.window_size = windowSize;
+
+   packet_buffer_allocate(&sender_buffer, QSIZE);
 }
 
 
@@ -524,7 +543,7 @@ void B_input(struct pkt packet) {
    //std::cout << "Layer 4 on side B has recieved a packet from layer 3 sent over the network from side A:" << packet << std::endl;
 
     //if packet is the correct seqnum and not corrupted
-  printf("B: got: %s, seqnum: %d expected: %d\n", packet.payload, packet.seqnum, expectedseqnum);
+    printf("B: got: %s, seqnum: %d expected: %d\n", packet.payload, packet.seqnum, expectedseqnum);
     if(packet.checksum == checksum(packet) && packet.seqnum == expectedseqnum){
         //std::cout << "Packet is good, sending ack for packet " << packet.seqnum << std::endl;
         //extract the message

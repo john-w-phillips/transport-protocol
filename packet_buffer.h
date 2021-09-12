@@ -2,8 +2,21 @@
 #define _PACKET_BUFFER_H_
 #include "transport_common.h"
 #include <stdlib.h>
-#include <assert.h>
 #include <stdio.h>
+
+/*
+  For cmocka asserts.
+ */
+#ifndef TESTING
+#include <assert.h>
+#else
+extern void mock_assert(const int result, const char  *const expression,
+			const char * const file, const int line);
+#undef assert
+#define assert(expr) \
+  mock_assert((int)(expr), #expr, __FILE__, __LINE__)
+#endif
+
 struct packet_buffer
 {
   unsigned window_size;
@@ -32,17 +45,26 @@ packet_buffer_get_next_for_window(struct packet_buffer *pb)
   {
     unsigned next_seq_old = (pb->base_ptr + pb->next_seq_ptr) % pb->qsize;
     pb->next_seq_ptr++;
+    pb->packets[next_seq_old].seqnum = pb->next_seq;
+    pb->next_seq++;
+
     return &pb->packets[next_seq_old];
   }
 }
 
-static void
+static bool
 packet_buffer_push(struct packet_buffer *pb, struct msg message)
 {
-  unsigned next_buffer_offset = (pb->base_ptr + (pb->push_pointer + 1)) % pb->qsize;
-  assert(next_buffer_offset != pb->base_ptr);
+  unsigned next_buffer_offset = (pb->push_pointer + 1) % pb->qsize;
+  //assert(next_buffer_offset != pb->base_ptr);
+  if (next_buffer_offset == pb->base_ptr)
+  {
+    fprintf(stderr, "BUFFER OVERRUN\n");
+    return false;
+  }
   memcpy(pb->packets[next_buffer_offset].payload, message.data, sizeof(message.data));
   pb->push_pointer += 1;
+  return true;
 }
 
 static void
@@ -64,5 +86,22 @@ packet_buffer_recv_ack(struct packet_buffer *pb, unsigned ack)
 	 pb->next_seq_ptr);
 }
 
+static unsigned
+packet_buffer_get_next_seqnum(struct packet_buffer *pb)
+{
+  return pb->next_seq;
+}
+
+static struct pkt *
+packet_buffer_unacked_begin(struct packet_buffer *pb)
+{
+  return &pb->packets[pb->base_ptr + 1];
+}
+
+static struct pkt *
+packet_buffer_unacked_end(struct packet_buffer *pb)
+{
+  return &pb->packets[pb->base_ptr + pb->next_seq_ptr];
+}
 #define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x[0])))
 #endif
