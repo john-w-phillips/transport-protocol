@@ -34,7 +34,7 @@ int base;
 int nextseqnum;
 int expectedseqnum;
 
-float estimatedRTT = 10;
+float estimatedRTT = 500;
 float initialTime;
 
 // const int windowSize = 8;
@@ -467,7 +467,7 @@ void A_input(struct pkt packet) {
        // base = packet.acknum + 1;
        packet_buffer_recv_ack(&sender_buffer, packet.acknum);
         //RTT is complete for this packet, so we can use it in estimatedRTT calculation
-        if(base == nextseqnum) {
+        if(sender_buffer.base_ptr == sender_buffer.next_seq) {
             stoptimer(0);
             float sampleRTT = time - initialTime;
             estimatedRTT = (0.875 * estimatedRTT) + (0.125 * sampleRTT);
@@ -497,7 +497,8 @@ void A_timerinterrupt() {
    /* 		A_send_packet(startPacket); */
    /* 	} */
    for (struct pkt *p_i = packet_buffer_unacked_begin(&sender_buffer);
-	p_i != packet_buffer_unacked_end(&sender_buffer);
+	//p_i != packet_buffer_unacked_end(&sender_buffer);
+	!packet_buffer_iter_is_past_window(&sender_buffer, p_i);
 	p_i = packet_buffer_next(&sender_buffer, p_i))
    {
      A_send_packet(*p_i);
