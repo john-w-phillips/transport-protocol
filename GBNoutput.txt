@@ -1,0 +1,1510 @@
+-----  Stop and Wait Network Simulator Version 1.1 -------- 
+
+Enter the number of messages to simulate: Enter  packet loss probability [enter 0.0 for no loss]:Enter packet corruption probability [0.0 for no corruption]:Enter average time between messages from sender's layer5 [ > 0.0]:Enter TRACE:
+EVENT time: 18.705740,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 24.170835,  type: 2, fromlayer3  entity: 1
+B: got: aaaaaaaaaaaaaaaaaaaa, seqnum: 1 expected: 1
+Setting new packet: 1, 1
+          TOLAYER3: packet being corrupted
+Sending back to Packet A
+
+EVENT time: 29.402449,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 33.705742,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+
+EVENT time: 35.124840,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 37.392609,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 38.057533,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 44.369377,  type: 2, fromlayer3  entity: 1
+B: got: bbbbbbbbbbbbbbbbbbbb, seqnum: 2 expected: 2
+Setting new packet: 2, 2
+Sending back to Packet A
+
+EVENT time: 45.847797,  type: 2, fromlayer3  entity: 1
+B: got: cccccccccccccccccccc, seqnum: 3 expected: 3
+Setting new packet: 3, 3
+          TOLAYER3: packet being lost
+Sending back to Packet A
+
+EVENT time: 48.705742,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 50.399025,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 2
+Old base: 0, base seq: 1, next seq ptr: 5
+New base: 2, base seq: 3, next seq ptr: 3
+Warning: attempt to start a timer that is already started
+
+EVENT time: 52.146210,  type: 2, fromlayer3  entity: 1
+B: got: dddddddddddddddddddd, seqnum: 4 expected: 4
+Setting new packet: 4, 4
+          TOLAYER3: packet being corrupted
+Sending back to Packet A
+
+EVENT time: 56.209812,  type: 2, fromlayer3  entity: 1
+B: got: Zaaaaaaaaaaaaaaaaaaa, seqnum: 1 expected: 5
+
+EVENT time: 56.787369,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 56.917294,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 57.984180,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 57.993736,  type: 2, fromlayer3  entity: 1
+B: got: bbbbbbbbbbbbbbbbbbbb, seqnum: 2 expected: 5
+          TOLAYER3: packet being corrupted
+
+EVENT time: 59.859375,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 4
+Old base: 2, base seq: 3, next seq ptr: 5
+New base: 4, base seq: 5, next seq ptr: 3
+Warning: attempt to start a timer that is already started
+
+EVENT time: 61.615055,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 62.152321,  type: 2, fromlayer3  entity: 1
+B: got: cccccccccccccccccccc, seqnum: 3 expected: 5
+
+EVENT time: 63.458710,  type: 2, fromlayer3  entity: 1
+B: got: eeeeeeeeeeeeeeeeeeee, seqnum: 5 expected: 5
+Setting new packet: 5, 5
+Sending back to Packet A
+
+EVENT time: 63.705742,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 64.678993,  type: 2, fromlayer3  entity: 1
+B: got: ffffffffffffffffffff, seqnum: 999999 expected: 6
+          TOLAYER3: packet being lost
+
+EVENT time: 65.030159,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 4
+Old base: 4, base seq: 5, next seq ptr: 3
+New base: 4, base seq: 5, next seq ptr: 3
+Warning: attempt to start a timer that is already started
+
+EVENT time: 66.415291,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 68.691925,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 5
+Old base: 4, base seq: 5, next seq ptr: 4
+New base: 5, base seq: 6, next seq ptr: 3
+Warning: attempt to start a timer that is already started
+
+EVENT time: 68.708221,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 71.180946,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 73.589775,  type: 2, fromlayer3  entity: 1
+B: got: Zeeeeeeeeeeeeeeeeeee, seqnum: 5 expected: 6
+
+EVENT time: 78.705742,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+
+EVENT time: 78.976631,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 5
+Old base: 5, base seq: 6, next seq ptr: 5
+New base: 5, base seq: 6, next seq ptr: 5
+Warning: attempt to start a timer that is already started
+
+EVENT time: 79.207443,  type: 2, fromlayer3  entity: 1
+B: got: Zfffffffffffffffffff, seqnum: 6 expected: 6
+
+EVENT time: 81.013779,  type: 2, fromlayer3  entity: 1
+B: got: Zggggggggggggggggggg, seqnum: 7 expected: 6
+          TOLAYER3: packet being corrupted
+
+EVENT time: 82.808594,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 84.030823,  type: 2, fromlayer3  entity: 1
+B: got: hhhhhhhhhhhhhhhhhhhh, seqnum: 8 expected: 6
+          TOLAYER3: packet being lost
+
+EVENT time: 84.872475,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 5
+Old base: 5, base seq: 6, next seq ptr: 6
+New base: 5, base seq: 6, next seq ptr: 6
+Warning: attempt to start a timer that is already started
+
+EVENT time: 89.503426,  type: 2, fromlayer3  entity: 1
+B: got: Ziiiiiiiiiiiiiiiiiii, seqnum: 9 expected: 6
+
+EVENT time: 91.207664,  type: 2, fromlayer3  entity: 1
+B: got: ffffffffffffffffffff, seqnum: 6 expected: 6
+Setting new packet: 6, 6
+          TOLAYER3: packet being corrupted
+Sending back to Packet A
+
+EVENT time: 91.569321,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 93.705742,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 97.891106,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 99.165527,  type: 2, fromlayer3  entity: 1
+B: got: hhhhhhhhhhhhhhhhhhhh, seqnum: 8 expected: 7
+          TOLAYER3: packet being corrupted
+
+EVENT time: 100.601044,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 5
+Old base: 5, base seq: 6, next seq ptr: 7
+New base: 5, base seq: 6, next seq ptr: 7
+Warning: attempt to start a timer that is already started
+
+EVENT time: 102.115143,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 103.557991,  type: 2, fromlayer3  entity: 1
+B: got: iiiiiiiiiiiiiiiiiiii, seqnum: 9 expected: 7
+          TOLAYER3: packet being lost
+
+EVENT time: 105.484543,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 105.550430,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 108.705742,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 109.256119,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 110.173676,  type: 2, fromlayer3  entity: 1
+B: got: jjjjjjjjjjjjjjjjjjjj, seqnum: 10 expected: 7
+
+EVENT time: 111.271698,  type: 2, fromlayer3  entity: 1
+B: got: Zfffffffffffffffffff, seqnum: 6 expected: 7
+
+EVENT time: 113.421082,  type: 2, fromlayer3  entity: 1
+B: got: gggggggggggggggggggg, seqnum: 7 expected: 7
+Setting new packet: 7, 7
+Sending back to Packet A
+
+EVENT time: 115.004951,  type: 2, fromlayer3  entity: 1
+B: got: Zhhhhhhhhhhhhhhhhhhh, seqnum: 8 expected: 8
+          TOLAYER3: packet being corrupted
+
+EVENT time: 116.859085,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 6
+Old base: 5, base seq: 6, next seq ptr: 9
+New base: 6, base seq: 7, next seq ptr: 8
+Warning: attempt to start a timer that is already started
+
+EVENT time: 120.252075,  type: 2, fromlayer3  entity: 1
+B: got: iiiiiiiiiiiiiiiiiiii, seqnum: 9 expected: 8
+
+EVENT time: 122.213524,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 122.569160,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 6
+Old base: 6, base seq: 7, next seq ptr: 9
+New base: 6, base seq: 7, next seq ptr: 9
+Warning: attempt to start a timer that is already started
+
+EVENT time: 123.114906,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being lost
+
+EVENT time: 123.705742,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 127.401932,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 7
+Old base: 6, base seq: 7, next seq ptr: 10
+New base: 7, base seq: 8, next seq ptr: 9
+Warning: attempt to start a timer that is already started
+
+EVENT time: 129.195816,  type: 2, fromlayer3  entity: 1
+B: got: Zjjjjjjjjjjjjjjjjjjj, seqnum: 10 expected: 8
+          TOLAYER3: packet being lost
+
+EVENT time: 130.180511,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 130.686981,  type: 2, fromlayer3  entity: 1
+B: got: Zkkkkkkkkkkkkkkkkkkk, seqnum: 11 expected: 8
+
+EVENT time: 134.599747,  type: 2, fromlayer3  entity: 1
+B: got: llllllllllllllllllll, seqnum: 12 expected: 8
+          TOLAYER3: packet being lost
+
+EVENT time: 137.940491,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 7
+Old base: 7, base seq: 8, next seq ptr: 9
+New base: 7, base seq: 8, next seq ptr: 9
+Warning: attempt to start a timer that is already started
+
+EVENT time: 138.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 139.138184,  type: 2, fromlayer3  entity: 1
+B: got: ffffffffffffffffffff, seqnum: 6 expected: 8
+
+EVENT time: 139.477997,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 7
+Old base: 7, base seq: 8, next seq ptr: 9
+New base: 7, base seq: 8, next seq ptr: 9
+Warning: attempt to start a timer that is already started
+
+EVENT time: 142.479660,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 144.826004,  type: 2, fromlayer3  entity: 1
+B: got: gggggggggggggggggggg, seqnum: 7 expected: 8
+
+EVENT time: 145.273529,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 7
+Old base: 7, base seq: 8, next seq ptr: 10
+New base: 7, base seq: 8, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 148.310486,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 7
+Old base: 7, base seq: 8, next seq ptr: 10
+New base: 7, base seq: 8, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 151.097687,  type: 2, fromlayer3  entity: 1
+B: got: hhhhhhhhhhhhhhhhhhhh, seqnum: 8 expected: 8
+Setting new packet: 8, 8
+Sending back to Packet A
+
+EVENT time: 153.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 156.779144,  type: 2, fromlayer3  entity: 1
+B: got: iiiiiiiiiiiiiiiiiiii, seqnum: 9 expected: 9
+Setting new packet: 9, 9
+Sending back to Packet A
+
+EVENT time: 157.953186,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being lost
+
+EVENT time: 158.815948,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 8
+Old base: 7, base seq: 8, next seq ptr: 11
+New base: 8, base seq: 9, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 161.718353,  type: 2, fromlayer3  entity: 1
+B: got: jjjjjjjjjjjjjjjjjjjj, seqnum: 10 expected: 10
+Setting new packet: 10, 10
+Sending back to Packet A
+
+EVENT time: 162.923080,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 9
+Old base: 8, base seq: 9, next seq ptr: 10
+New base: 9, base seq: 10, next seq ptr: 9
+Warning: attempt to start a timer that is already started
+
+EVENT time: 168.096634,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 10
+Old base: 9, base seq: 10, next seq ptr: 9
+New base: 10, base seq: 11, next seq ptr: 8
+Warning: attempt to start a timer that is already started
+
+EVENT time: 168.486816,  type: 2, fromlayer3  entity: 1
+B: got: Zlllllllllllllllllll, seqnum: 12 expected: 11
+
+EVENT time: 168.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 171.792999,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 10
+Old base: 10, base seq: 11, next seq ptr: 8
+New base: 10, base seq: 11, next seq ptr: 8
+Warning: attempt to start a timer that is already started
+
+EVENT time: 172.298248,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 176.916565,  type: 2, fromlayer3  entity: 1
+B: got: mmmmmmmmmmmmmmmmmmmm, seqnum: 13 expected: 11
+          TOLAYER3: packet being corrupted
+
+EVENT time: 182.834045,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 183.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 184.308945,  type: 2, fromlayer3  entity: 1
+B: got: Znnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 11
+
+EVENT time: 188.828094,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 190.175613,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 10
+Old base: 10, base seq: 11, next seq ptr: 10
+New base: 10, base seq: 11, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 190.791534,  type: 2, fromlayer3  entity: 1
+B: got: gggggggggggggggggggg, seqnum: 7 expected: 11
+
+EVENT time: 194.104965,  type: 2, fromlayer3  entity: 1
+B: got: hhhhhhhhhhhhhhhhhhhh, seqnum: 8 expected: 11
+          TOLAYER3: packet being corrupted
+
+EVENT time: 196.618622,  type: 2, fromlayer3  entity: 1
+B: got: iiiiiiiiiiiiiiiiiiii, seqnum: 9 expected: 11
+
+EVENT time: 197.918823,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 10
+Old base: 10, base seq: 11, next seq ptr: 10
+New base: 10, base seq: 11, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 198.481552,  type: 2, fromlayer3  entity: 1
+B: got: jjjjjjjjjjjjjjjjjjjj, seqnum: 10 expected: 11
+
+EVENT time: 198.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 202.606522,  type: 2, fromlayer3  entity: 1
+B: got: kkkkkkkkkkkkkkkkkkkk, seqnum: 11 expected: 11
+Setting new packet: 11, 11
+          TOLAYER3: packet being lost
+Sending back to Packet A
+
+EVENT time: 206.262939,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 206.787247,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 211.733780,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 10
+Old base: 10, base seq: 11, next seq ptr: 11
+New base: 10, base seq: 11, next seq ptr: 11
+Warning: attempt to start a timer that is already started
+
+EVENT time: 212.531952,  type: 2, fromlayer3  entity: 1
+B: got: llllllllllllllllllll, seqnum: 12 expected: 12
+Setting new packet: 12, 12
+Sending back to Packet A
+
+EVENT time: 213.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 214.808594,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 10
+Old base: 10, base seq: 11, next seq ptr: 11
+New base: 10, base seq: 11, next seq ptr: 11
+Warning: attempt to start a timer that is already started
+
+EVENT time: 214.945679,  type: 2, fromlayer3  entity: 1
+B: got: Zmmmmmmmmmmmmmmmmmmm, seqnum: 13 expected: 13
+
+EVENT time: 219.376663,  type: 2, fromlayer3  entity: 1
+B: got: Znnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 13
+
+EVENT time: 220.182541,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 12
+Old base: 10, base seq: 11, next seq ptr: 11
+New base: 12, base seq: 13, next seq ptr: 9
+Warning: attempt to start a timer that is already started
+
+EVENT time: 221.840042,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 225.057968,  type: 2, fromlayer3  entity: 1
+B: got: hhhhhhhhhhhhhhhhhhhh, seqnum: 8 expected: 13
+          TOLAYER3: packet being corrupted
+
+EVENT time: 226.905167,  type: 2, fromlayer3  entity: 1
+B: got: Zjjjjjjjjjjjjjjjjjjj, seqnum: 10 expected: 13
+          TOLAYER3: packet being lost
+
+EVENT time: 228.428024,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 12
+Old base: 12, base seq: 13, next seq ptr: 10
+New base: 12, base seq: 13, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 228.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 234.008850,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 12
+Old base: 12, base seq: 13, next seq ptr: 10
+New base: 12, base seq: 13, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 235.618683,  type: 2, fromlayer3  entity: 1
+B: got: llllllllllllllllllll, seqnum: 12 expected: 13
+          TOLAYER3: packet being lost
+
+EVENT time: 237.746384,  type: 2, fromlayer3  entity: 1
+B: got: mmmmmmmmmmmmmmmmmmmm, seqnum: 13 expected: 13
+Setting new packet: 13, 13
+          TOLAYER3: packet being corrupted
+Sending back to Packet A
+
+EVENT time: 237.779373,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 238.134949,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 243.445068,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 243.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 244.920639,  type: 2, fromlayer3  entity: 1
+B: got: Zooooooooooooooooooo, seqnum: 15 expected: 14
+
+EVENT time: 250.614655,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 12, base seq: 13, next seq ptr: 11
+New base: 13, base seq: 14, next seq ptr: 10
+Warning: attempt to start a timer that is already started
+
+EVENT time: 250.904282,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being lost
+
+EVENT time: 254.291138,  type: 2, fromlayer3  entity: 1
+B: got: pppppppppppppppppppp, seqnum: 16 expected: 14
+          TOLAYER3: packet being lost
+
+EVENT time: 258.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 262.423767,  type: 2, fromlayer3  entity: 1
+B: got: hhhhhhhhhhhhhhhhhhhh, seqnum: 8 expected: 14
+
+EVENT time: 269.039490,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 269.983917,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 12
+New base: 13, base seq: 14, next seq ptr: 12
+Warning: attempt to start a timer that is already started
+
+EVENT time: 270.575470,  type: 2, fromlayer3  entity: 1
+B: got: iiiiiiiiiiiiiiiiiiii, seqnum: 9 expected: 14
+
+EVENT time: 273.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+
+EVENT time: 274.799072,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 274.890228,  type: 2, fromlayer3  entity: 1
+B: got: jjjjjjjjjjjjjjjjjjjj, seqnum: 10 expected: 14
+
+EVENT time: 276.637695,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 13
+New base: 13, base seq: 14, next seq ptr: 13
+Warning: attempt to start a timer that is already started
+
+EVENT time: 280.476562,  type: 2, fromlayer3  entity: 1
+B: got: llllllllllllllllllll, seqnum: 12 expected: 14
+
+EVENT time: 282.383362,  type: 2, fromlayer3  entity: 1
+B: got: mmmmmmmmmmmmmmmmmmmm, seqnum: 13 expected: 14
+          TOLAYER3: packet being lost
+
+EVENT time: 285.375031,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 13
+New base: 13, base seq: 14, next seq ptr: 13
+Warning: attempt to start a timer that is already started
+
+EVENT time: 285.529449,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 288.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 291.568542,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 14
+
+EVENT time: 291.695190,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 14
+New base: 13, base seq: 14, next seq ptr: 14
+Warning: attempt to start a timer that is already started
+
+EVENT time: 295.373016,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 297.510193,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being lost
+
+EVENT time: 298.716797,  type: 2, fromlayer3  entity: 1
+B: got: pppppppppppppppppppp, seqnum: 16 expected: 14
+
+EVENT time: 300.174683,  type: 2, fromlayer3  entity: 1
+B: got: Zkkkkkkkkkkkkkkkkkkk, seqnum: 11 expected: 14
+
+EVENT time: 301.351624,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 16
+New base: 13, base seq: 14, next seq ptr: 16
+Warning: attempt to start a timer that is already started
+
+EVENT time: 303.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 304.728394,  type: 2, fromlayer3  entity: 1
+B: got: llllllllllllllllllll, seqnum: 12 expected: 14
+
+EVENT time: 310.358582,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 16
+New base: 13, base seq: 14, next seq ptr: 16
+Warning: attempt to start a timer that is already started
+
+EVENT time: 312.104767,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 313.868439,  type: 2, fromlayer3  entity: 1
+B: got: mmmmmmmmmmmmmmmmmmmm, seqnum: 13 expected: 14
+
+EVENT time: 314.915283,  type: 2, fromlayer3  entity: 1
+B: got: nnnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 14
+Setting new packet: 14, 14
+Sending back to Packet A
+
+EVENT time: 318.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 319.542267,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 17
+New base: 13, base seq: 14, next seq ptr: 17
+Warning: attempt to start a timer that is already started
+
+EVENT time: 321.910675,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 17
+New base: 13, base seq: 14, next seq ptr: 17
+Warning: attempt to start a timer that is already started
+
+EVENT time: 322.887573,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 15
+Setting new packet: 15, 15
+Sending back to Packet A
+
+EVENT time: 323.083099,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 325.347595,  type: 2, fromlayer3  entity: 1
+B: got: qqqqqqqqqqqqqqqqqqqq, seqnum: 17 expected: 16
+          TOLAYER3: packet being lost
+
+EVENT time: 328.475769,  type: 2, fromlayer3  entity: 1
+B: got: rrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 16
+
+EVENT time: 329.926636,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 13
+Old base: 13, base seq: 14, next seq ptr: 18
+New base: 13, base seq: 14, next seq ptr: 18
+Warning: attempt to start a timer that is already started
+
+EVENT time: 329.983643,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 330.514343,  type: 2, fromlayer3  entity: 1
+B: got: Zlllllllllllllllllll, seqnum: 12 expected: 16
+
+EVENT time: 331.395355,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 14
+Old base: 13, base seq: 14, next seq ptr: 19
+New base: 14, base seq: 15, next seq ptr: 18
+Warning: attempt to start a timer that is already started
+
+EVENT time: 333.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 335.443359,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 15
+Old base: 14, base seq: 15, next seq ptr: 18
+New base: 15, base seq: 16, next seq ptr: 17
+Warning: attempt to start a timer that is already started
+
+EVENT time: 338.118317,  type: 2, fromlayer3  entity: 1
+B: got: nnnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 16
+
+EVENT time: 339.224457,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 16
+
+EVENT time: 340.735504,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 15
+Old base: 15, base seq: 16, next seq ptr: 17
+New base: 15, base seq: 16, next seq ptr: 17
+Warning: attempt to start a timer that is already started
+
+EVENT time: 341.971588,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 342.510162,  type: 2, fromlayer3  entity: 1
+B: got: pppppppppppppppppppp, seqnum: 16 expected: 16
+Setting new packet: 16, 16
+          TOLAYER3: packet being lost
+Sending back to Packet A
+
+EVENT time: 345.356720,  type: 2, fromlayer3  entity: 1
+B: got: rrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 348.335327,  type: 2, fromlayer3  entity: 1
+B: got: ssssssssssssssssssss, seqnum: 19 expected: 17
+
+EVENT time: 348.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 350.477539,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 15
+Old base: 15, base seq: 16, next seq ptr: 18
+New base: 15, base seq: 16, next seq ptr: 18
+Warning: attempt to start a timer that is already started
+
+EVENT time: 351.199982,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 351.516266,  type: 2, fromlayer3  entity: 1
+B: got: kkkkkkkkkkkkkkkkkkkk, seqnum: 11 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 352.888123,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 15
+Old base: 15, base seq: 16, next seq ptr: 19
+New base: 15, base seq: 16, next seq ptr: 19
+Warning: attempt to start a timer that is already started
+
+EVENT time: 354.724548,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 15
+Old base: 15, base seq: 16, next seq ptr: 19
+New base: 15, base seq: 16, next seq ptr: 19
+Warning: attempt to start a timer that is already started
+
+EVENT time: 355.079376,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 356.982910,  type: 2, fromlayer3  entity: 1
+B: got: Zlllllllllllllllllll, seqnum: 12 expected: 17
+
+EVENT time: 360.007812,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 361.580292,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 15, base seq: 16, next seq ptr: 20
+New base: 16, base seq: 17, next seq ptr: 19
+Warning: attempt to start a timer that is already started
+
+EVENT time: 363.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 365.646362,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 366.125732,  type: 2, fromlayer3  entity: 1
+B: got: nnnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 17
+
+EVENT time: 367.147797,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+
+EVENT time: 368.735382,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 20
+New base: 16, base seq: 17, next seq ptr: 20
+Warning: attempt to start a timer that is already started
+
+EVENT time: 372.680023,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 17
+
+EVENT time: 375.961517,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 20
+New base: 16, base seq: 17, next seq ptr: 20
+Warning: attempt to start a timer that is already started
+
+EVENT time: 378.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 381.212891,  type: 2, fromlayer3  entity: 1
+B: got: pppppppppppppppppppp, seqnum: 16 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 381.610413,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 20
+New base: 16, base seq: 17, next seq ptr: 20
+Warning: attempt to start a timer that is already started
+
+EVENT time: 382.549164,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 386.171692,  type: 2, fromlayer3  entity: 1
+B: got: Zrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 17
+
+EVENT time: 389.474609,  type: 2, fromlayer3  entity: 1
+B: got: ssssssssssssssssssss, seqnum: 19 expected: 17
+
+EVENT time: 389.571411,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 392.521271,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 21
+New base: 16, base seq: 17, next seq ptr: 21
+Warning: attempt to start a timer that is already started
+
+EVENT time: 393.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 396.809937,  type: 2, fromlayer3  entity: 1
+B: got: tttttttttttttttttttt, seqnum: 20 expected: 17
+
+EVENT time: 397.609589,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 21
+New base: 16, base seq: 17, next seq ptr: 21
+Warning: attempt to start a timer that is already started
+
+EVENT time: 397.805664,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 398.542908,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 402.244293,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being lost
+
+EVENT time: 404.735596,  type: 2, fromlayer3  entity: 1
+B: got: kkkkkkkkkkkkkkkkkkkk, seqnum: 11 expected: 17
+          TOLAYER3: packet being lost
+
+EVENT time: 404.943146,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 24
+New base: 16, base seq: 17, next seq ptr: 24
+Warning: attempt to start a timer that is already started
+
+EVENT time: 406.852631,  type: 2, fromlayer3  entity: 1
+B: got: llllllllllllllllllll, seqnum: 12 expected: 17
+          TOLAYER3: packet being lost
+
+EVENT time: 408.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 416.268555,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 17
+
+EVENT time: 420.511139,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 422.380371,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 423.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 425.731873,  type: 2, fromlayer3  entity: 1
+B: got: rrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 17
+
+EVENT time: 430.153992,  type: 2, fromlayer3  entity: 1
+B: got: ssssssssssssssssssss, seqnum: 19 expected: 17
+
+EVENT time: 431.196747,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 436.879028,  type: 2, fromlayer3  entity: 1
+B: got: tttttttttttttttttttt, seqnum: 20 expected: 17
+
+EVENT time: 438.283936,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 438.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 439.473419,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 443.508972,  type: 2, fromlayer3  entity: 1
+B: got: uuuuuuuuuuuuuuuuuuuu, seqnum: 21 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 444.152435,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 451.115173,  type: 2, fromlayer3  entity: 1
+B: got: Znnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 17
+          TOLAYER3: packet being lost
+
+EVENT time: 452.774170,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 452.781708,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 453.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 454.651917,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 999999 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 455.716888,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 457.880554,  type: 2, fromlayer3  entity: 1
+B: got: pppppppppppppppppppp, seqnum: 16 expected: 17
+
+EVENT time: 466.728973,  type: 2, fromlayer3  entity: 1
+B: got: rrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 467.629700,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 468.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 471.293945,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 473.822876,  type: 2, fromlayer3  entity: 1
+B: got: ssssssssssssssssssss, seqnum: 19 expected: 17
+
+EVENT time: 476.723480,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 480.411743,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 480.507507,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 480.911987,  type: 2, fromlayer3  entity: 1
+B: got: Zuuuuuuuuuuuuuuuuuuu, seqnum: 21 expected: 17
+          TOLAYER3: packet being lost
+
+EVENT time: 483.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 488.676636,  type: 2, fromlayer3  entity: 1
+B: got: vvvvvvvvvvvvvvvvvvvv, seqnum: 22 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 490.551086,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 491.499451,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 492.512695,  type: 2, fromlayer3  entity: 1
+B: got: mmmmmmmmmmmmmmmmmmmm, seqnum: 13 expected: 17
+
+EVENT time: 496.599060,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 496.767181,  type: 2, fromlayer3  entity: 1
+B: got: Znnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 498.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 501.342224,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 17
+
+EVENT time: 503.701935,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 504.765686,  type: 2, fromlayer3  entity: 1
+B: got: Zppppppppppppppppppp, seqnum: 16 expected: 17
+          TOLAYER3: packet being lost
+
+EVENT time: 505.119781,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 505.743286,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 507.219971,  type: 2, fromlayer3  entity: 1
+B: got: Zqqqqqqqqqqqqqqqqqqq, seqnum: 17 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 511.940948,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 513.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+
+EVENT time: 515.395508,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 515.582886,  type: 2, fromlayer3  entity: 1
+B: got: rrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 516.886230,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 519.204773,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 524.523132,  type: 2, fromlayer3  entity: 1
+B: got: ssssssssssssssssssss, seqnum: 19 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 526.024597,  type: 2, fromlayer3  entity: 1
+B: got: tttttttttttttttttttt, seqnum: 20 expected: 17
+
+EVENT time: 528.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 532.362732,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 532.494507,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 534.628052,  type: 2, fromlayer3  entity: 1
+B: got: uuuuuuuuuuuuuuuuuuuu, seqnum: 21 expected: 17
+          TOLAYER3: packet being lost
+
+EVENT time: 537.067566,  type: 2, fromlayer3  entity: 1
+B: got: vvvvvvvvvvvvvvvvvvvv, seqnum: 22 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 540.440063,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 541.848877,  type: 2, fromlayer3  entity: 1
+B: got: nnnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 542.829041,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 543.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 548.003113,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 548.987671,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 17
+          TOLAYER3: packet being corrupted
+
+EVENT time: 549.749817,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 557.400269,  type: 2, fromlayer3  entity: 1
+B: got: pppppppppppppppppppp, seqnum: 16 expected: 17
+
+EVENT time: 558.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 559.304932,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 566.053040,  type: 2, fromlayer3  entity: 1
+B: got: rrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 17
+
+EVENT time: 567.306152,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 568.037292,  type: 2, fromlayer3  entity: 1
+B: got: ssssssssssssssssssss, seqnum: 19 expected: 17
+
+EVENT time: 568.493958,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 570.860413,  type: 2, fromlayer3  entity: 1
+B: got: tttttttttttttttttttt, seqnum: 20 expected: 17
+          TOLAYER3: packet being lost
+
+EVENT time: 572.121277,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 573.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 576.118103,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 577.479919,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 579.205750,  type: 2, fromlayer3  entity: 1
+B: got: vvvvvvvvvvvvvvvvvvvv, seqnum: 22 expected: 17
+
+EVENT time: 581.146301,  type: 2, fromlayer3  entity: 1
+B: got: xxxxxxxxxxxxxxxxxxxx, seqnum: 24 expected: 17
+
+EVENT time: 584.919373,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 585.753357,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 587.479858,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 588.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 590.847534,  type: 2, fromlayer3  entity: 1
+B: got: nnnnnnnnnnnnnnnnnnnn, seqnum: 14 expected: 17
+
+EVENT time: 595.569214,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 596.379944,  type: 2, fromlayer3  entity: 1
+B: got: oooooooooooooooooooo, seqnum: 15 expected: 17
+
+EVENT time: 599.802124,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 600.565125,  type: 2, fromlayer3  entity: 1
+B: got: pppppppppppppppppppp, seqnum: 16 expected: 17
+
+EVENT time: 601.840271,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 603.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+
+EVENT time: 605.734558,  type: 2, fromlayer3  entity: 1
+B: got: qqqqqqqqqqqqqqqqqqqq, seqnum: 17 expected: 17
+Setting new packet: 17, 17
+          TOLAYER3: packet being corrupted
+Sending back to Packet A
+
+EVENT time: 606.085327,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 607.726074,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 610.488464,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 16
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 16, base seq: 17, next seq ptr: 25
+Warning: attempt to start a timer that is already started
+
+EVENT time: 612.727051,  type: 2, fromlayer3  entity: 1
+B: got: rrrrrrrrrrrrrrrrrrrr, seqnum: 18 expected: 18
+Setting new packet: 18, 18
+          TOLAYER3: packet being lost
+Sending back to Packet A
+
+EVENT time: 616.307068,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+
+EVENT time: 618.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+
+EVENT time: 620.146179,  type: 2, fromlayer3  entity: 1
+B: got: ssssssssssssssssssss, seqnum: 19 expected: 19
+Setting new packet: 19, 19
+          TOLAYER3: packet being lost
+Sending back to Packet A
+
+EVENT time: 624.888977,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 629.431396,  type: 2, fromlayer3  entity: 1
+B: got: tttttttttttttttttttt, seqnum: 20 expected: 20
+Setting new packet: 20, 20
+Sending back to Packet A
+
+EVENT time: 631.515869,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 20
+Old base: 16, base seq: 17, next seq ptr: 25
+New base: 20, base seq: 21, next seq ptr: 21
+Warning: attempt to start a timer that is already started
+
+EVENT time: 633.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 636.276733,  type: 2, fromlayer3  entity: 1
+B: got: uuuuuuuuuuuuuuuuuuuu, seqnum: 21 expected: 21
+Setting new packet: 21, 21
+Sending back to Packet A
+
+EVENT time: 638.271179,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 639.975708,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 21
+Old base: 20, base seq: 21, next seq ptr: 22
+New base: 21, base seq: 22, next seq ptr: 21
+Warning: attempt to start a timer that is already started
+
+EVENT time: 641.859375,  type: 2, fromlayer3  entity: 1
+B: got: vvvvvvvvvvvvvvvvvvvv, seqnum: 22 expected: 22
+Setting new packet: 22, 22
+          TOLAYER3: packet being lost
+Sending back to Packet A
+
+EVENT time: 648.705750,  type: 0, timerinterrupt   entity: 0
+A: TIMERINTERRUPT!
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being lost
+          TOLAYER3: packet being corrupted
+          TOLAYER3: packet being corrupted
+
+EVENT time: 649.960632,  type: 2, fromlayer3  entity: 1
+B: got: Zwwwwwwwwwwwwwwwwwww, seqnum: 23 expected: 23
+
+EVENT time: 651.583374,  type: 2, fromlayer3  entity: 1
+B: got: xxxxxxxxxxxxxxxxxxxx, seqnum: 24 expected: 23
+
+EVENT time: 651.954956,  type: 2, fromlayer3  entity: 0
+Side A has recieved a packet sent over the network from side B
+Checksum worked and acknowledgement number = 22
+Old base: 21, base seq: 22, next seq ptr: 21
+New base: 22, base seq: 23, next seq ptr: 20
+Warning: attempt to start a timer that is already started
+
+EVENT time: 655.352417,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 655.855774,  type: 2, fromlayer3  entity: 1
+B: got: yyyyyyyyyyyyyyyyyyyy, seqnum: 25 expected: 23
+          TOLAYER3: packet being corrupted
+
+EVENT time: 658.587646,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 661.425598,  type: 2, fromlayer3  entity: 0
+ Simulator terminated at time 661.425598
+ after sending 60 msgs from layer5
