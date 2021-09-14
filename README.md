@@ -19,6 +19,10 @@ Building the project compiles two executables, `abp` and `gbn`, `abp`
 is the lab for 'Alternating Bit Protocol' and gbn is for the 'go back
 n' protocol.
 
+The alternating bit protocol is implemented in `proto.c` with some
+help from various headers. The go-back-n protocol is implemented in
+`GO-BACK-N.c`, again with help from some common headers.
+
 
 ## Misc
 
