@@ -46,7 +46,7 @@ A_output(message)
   int seq = sender_next_seq(sender_a);
   struct pkt output_pkt = make_send_pkt(&message, seq);
   sender_a.last_packet = output_pkt;
-  printf("A: Sending: %s\n", message.data);
+  printf("A: Sending: %s\n", msg_data_string(&message));
   A_send_packet(output_pkt, &sender_dbg);
   sender_incr_seq(sender_a);
   update_sender_state(&sender_a);
@@ -94,6 +94,7 @@ A_input(packet)
 /* called when A's timer goes off */
 A_timerinterrupt()
 {
+  printf("A: Timerinterrupt, resending last packet...\n");
   A_send_packet(sender_a.last_packet, &sender_dbg);
   starttimer(A, sender_timer(sender_a));
 }

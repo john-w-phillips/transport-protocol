@@ -58,10 +58,12 @@ static void B_debug_packet(struct pkt packet, struct receiver_debug *rcv_dbg)
 {
   static char expected = 0;  
   dump_packet_payload(packet, rcv_dbg->received_packets);
+#ifdef TESTING  
   if (packet.payload[0] != (expected + 'a'))
     abort();
   else
     expected = (expected + 1) % 26;
+#endif  
 }
 
 #endif
