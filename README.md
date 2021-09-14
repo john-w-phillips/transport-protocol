@@ -4,7 +4,7 @@
 Annotated outputs are in
 [ABP_Output_Annotated.pdf](/ABP_Output_Annotated.pdf) and
 [GBN_Output_Annotated.pdf](/GBN_Output_Annotated.pdf). The design
-document is [CSCI 560_Design_Document.pdf](/CSCI 560_Design_Document.pdf).
+document is "CSCI 560_Design_Document.pdf".
 	
 ## Building and running
 This project uses CMake, you can build and run `abp` as follows:
